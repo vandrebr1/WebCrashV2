@@ -34,6 +34,14 @@ namespace WebCrashV2.LIB.Repository.DB
             return session.Connection.GetList<TelaInformacoes>();
         }
 
+        public List<TelaInformacoes> GetUltimosResultadosPattern(int patternLength)
+        {
+            var telaInformacoes = session.Connection.GetListPaged<TelaInformacoes>(1, patternLength, "", "Id desc");
+            var telaInformacoesOrdenado = telaInformacoes.OrderBy(t => t.Id).ToList();
+
+            return telaInformacoesOrdenado;
+        }
+
         public IEnumerable<TelaInformacoes> SelecionarRegistrosMontarPrevisao()
         {
             var telaInformacoes = session.Connection.GetListPaged<TelaInformacoes>(1, 3, "", "Id desc");

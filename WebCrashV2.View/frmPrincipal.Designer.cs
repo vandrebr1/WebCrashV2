@@ -31,12 +31,22 @@ namespace WebCrashV2.View
         {
             this.btnAbrirNavegador = new System.Windows.Forms.Button();
             this.btnCapturarInformacao = new System.Windows.Forms.Button();
-            this.txtLogs = new System.Windows.Forms.TextBox();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.btnCrash = new System.Windows.Forms.Button();
+            this.txtValorAposta = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.txtMultiplicador = new System.Windows.Forms.TextBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.txtPattern = new System.Windows.Forms.TextBox();
+            this.groupBox1.SuspendLayout();
+            this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
             // btnAbrirNavegador
             // 
-            this.btnAbrirNavegador.Location = new System.Drawing.Point(12, 12);
+            this.btnAbrirNavegador.Location = new System.Drawing.Point(10, 30);
             this.btnAbrirNavegador.Name = "btnAbrirNavegador";
             this.btnAbrirNavegador.Size = new System.Drawing.Size(140, 23);
             this.btnAbrirNavegador.TabIndex = 0;
@@ -46,7 +56,7 @@ namespace WebCrashV2.View
             // 
             // btnCapturarInformacao
             // 
-            this.btnCapturarInformacao.Location = new System.Drawing.Point(12, 41);
+            this.btnCapturarInformacao.Location = new System.Drawing.Point(10, 59);
             this.btnCapturarInformacao.Name = "btnCapturarInformacao";
             this.btnCapturarInformacao.Size = new System.Drawing.Size(140, 23);
             this.btnCapturarInformacao.TabIndex = 1;
@@ -54,26 +64,107 @@ namespace WebCrashV2.View
             this.btnCapturarInformacao.UseVisualStyleBackColor = true;
             this.btnCapturarInformacao.Click += new System.EventHandler(this.btnCapturarInformacao_Click);
             // 
-            // txtLogs
+            // groupBox1
             // 
-            this.txtLogs.Location = new System.Drawing.Point(372, 12);
-            this.txtLogs.Multiline = true;
-            this.txtLogs.Name = "txtLogs";
-            this.txtLogs.Size = new System.Drawing.Size(416, 426);
-            this.txtLogs.TabIndex = 2;
+            this.groupBox1.Controls.Add(this.btnCapturarInformacao);
+            this.groupBox1.Controls.Add(this.btnAbrirNavegador);
+            this.groupBox1.Location = new System.Drawing.Point(12, 12);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(193, 95);
+            this.groupBox1.TabIndex = 9;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Testes";
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.txtPattern);
+            this.groupBox2.Controls.Add(this.btnCrash);
+            this.groupBox2.Controls.Add(this.txtValorAposta);
+            this.groupBox2.Controls.Add(this.label3);
+            this.groupBox2.Controls.Add(this.txtMultiplicador);
+            this.groupBox2.Controls.Add(this.label2);
+            this.groupBox2.Controls.Add(this.label1);
+            this.groupBox2.Location = new System.Drawing.Point(13, 113);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(192, 150);
+            this.groupBox2.TabIndex = 11;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Automação";
+            // 
+            // btnCrash
+            // 
+            this.btnCrash.Location = new System.Drawing.Point(91, 108);
+            this.btnCrash.Name = "btnCrash";
+            this.btnCrash.Size = new System.Drawing.Size(89, 23);
+            this.btnCrash.TabIndex = 17;
+            this.btnCrash.Text = "Crash";
+            this.btnCrash.UseVisualStyleBackColor = true;
+            this.btnCrash.Click += new System.EventHandler(this.btnCrash_Click);
+            // 
+            // txtValorAposta
+            // 
+            this.txtValorAposta.Location = new System.Drawing.Point(80, 82);
+            this.txtValorAposta.Name = "txtValorAposta";
+            this.txtValorAposta.Size = new System.Drawing.Size(100, 20);
+            this.txtValorAposta.TabIndex = 16;
+            this.txtValorAposta.Text = "100";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(8, 85);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(67, 13);
+            this.label3.TabIndex = 15;
+            this.label3.Text = "Valor Aposta";
+            // 
+            // txtMultiplicador
+            // 
+            this.txtMultiplicador.Location = new System.Drawing.Point(80, 56);
+            this.txtMultiplicador.Name = "txtMultiplicador";
+            this.txtMultiplicador.Size = new System.Drawing.Size(100, 20);
+            this.txtMultiplicador.TabIndex = 14;
+            this.txtMultiplicador.Text = "1,95";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(8, 59);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(66, 13);
+            this.label2.TabIndex = 13;
+            this.label2.Text = "Multiplicador";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(8, 33);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(41, 13);
+            this.label1.TabIndex = 11;
+            this.label1.Text = "Pattern";
+            // 
+            // txtPattern
+            // 
+            this.txtPattern.Location = new System.Drawing.Point(80, 30);
+            this.txtPattern.Name = "txtPattern";
+            this.txtPattern.Size = new System.Drawing.Size(100, 20);
+            this.txtPattern.TabIndex = 18;
+            this.txtPattern.Text = "000";
             // 
             // frmPrincipal
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Controls.Add(this.txtLogs);
-            this.Controls.Add(this.btnCapturarInformacao);
-            this.Controls.Add(this.btnAbrirNavegador);
+            this.ClientSize = new System.Drawing.Size(215, 278);
+            this.Controls.Add(this.groupBox1);
+            this.Controls.Add(this.groupBox2);
             this.Name = "frmPrincipal";
             this.Text = "Form1";
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -81,7 +172,15 @@ namespace WebCrashV2.View
 
         private System.Windows.Forms.Button btnAbrirNavegador;
         private System.Windows.Forms.Button btnCapturarInformacao;
-        private System.Windows.Forms.TextBox txtLogs;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.Button btnCrash;
+        private System.Windows.Forms.TextBox txtValorAposta;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.TextBox txtMultiplicador;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.TextBox txtPattern;
     }
 }
 

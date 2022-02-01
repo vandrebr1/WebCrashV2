@@ -13,22 +13,22 @@ namespace WebCrashV2.LIB.Infraestrutura.Modelos
 
         public TelaInformacoes(string multiplicador, DateTime HorarioCaptura, bool houveErroLeitura)
         {
-           
+
             Multiplicador = ConvertDouble(multiplicador);
             this.HorarioCaptura = HorarioCaptura;
 
             HouveErroLeitura = houveErroLeitura;
         }
 
+        internal static TelaInformacoes MontarRegistroErroLeitura()
+        {
+            return new TelaInformacoes("-1", DateTime.Now, true);
+        }
+
         public int Id { get; }
 
         public double Multiplicador { get; }
-       
 
-        internal static TelaInformacoes MontarRegistroErroLeitura()
-        {
-            return new TelaInformacoes("0", DateTime.Now, true);
-        }
 
         public DateTime HorarioCaptura { get; }
 
