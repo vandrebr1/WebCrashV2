@@ -158,21 +158,37 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Domain\ProcurarPadrao\AnaliseIntervaloDiasAgrupadoHora.cs" />
+    <Compile Include="Domain\ProcurarPadrao\AnaliseTodoPeriodo.cs" />
+    <Compile Include="Domain\ProcurarPadrao\ConfiguracaoExibicaoGanhosPositivo.cs" />
+    <Compile Include="Domain\ProcurarPadrao\ConfiguracaoExibicaoTodos.cs" />
     <Compile Include="Domain\Robo\RoboCrash.cs" />
+    <Compile Include="Infraestrutura\Interfaces\IConfiguracaoExibicao.cs" />
+    <Compile Include="Infraestrutura\Interfaces\IConfiguracaoAnalise.cs" />
+    <Compile Include="Domain\ProcurarPadrao\Resultado.cs" />
+    <Compile Include="Domain\ProcurarPadrao\ResultadosPatterns.cs" />
+    <Compile Include="Domain\ProcurarPadrao\ConfiguracoesProcurarPadrao.cs" />
+    <Compile Include="Infraestrutura\Modelos\Analise.cs" />
+    <Compile Include="Infraestrutura\Modelos\Contabilidade.cs" />
     <Compile Include="Infraestrutura\Modelos\TelaInformacoes.cs" />
     <Compile Include="Domain\WebJogo\JogoControlador.cs" />
     <Compile Include="Observable\IRoboObserver.cs" />
     <Compile Include="Observable\IJogoSubject.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repository\AnalisesRepository.cs" />
     <Compile Include="Repository\DB\DBContext.cs" />
     <Compile Include="Repository\DB\DBOption.cs" />
     <Compile Include="Repository\DB\DBSession.cs" />
     <Compile Include="Repository\DB\IDBProvider.cs" />
     <Compile Include="Repository\DB\SQLServerProvider.cs" />
+    <Compile Include="Repository\ContabilidadeRepository.cs" />
     <Compile Include="Repository\TelaInformacoesRepository.cs" />
     <Compile Include="Services\CapturaDadosTela.cs" />
+    <Compile Include="Services\ConverterZeroUm.cs" />
+    <Compile Include="Services\GerarStringsBinaria.cs" />
     <Compile Include="Services\JogoStatusService.cs" />
     <Compile Include="Services\NavegadorService.cs" />
+    <Compile Include="Services\AnaliseProcurarPadrao.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

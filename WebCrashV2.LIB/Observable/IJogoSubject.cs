@@ -17,6 +17,6 @@ namespace WebCrashV2.LIB.Observable
 
         void IsObterPremio(NavegadorService navegador);
 
-        void FinalizaAposta();
+        void FinalizaAposta(double multiplicadorFinalizado);
     }
 }

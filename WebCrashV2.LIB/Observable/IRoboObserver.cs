@@ -10,7 +10,7 @@ namespace WebCrashV2.LIB.Observable
     {
         void RoboIsApostar();
         void ObterPremio(Services.NavegadorService navegador);
-        void FinalizaAposta();
+        void FinalizaAposta(double multiplicadorFinalizado);
 
     }
 }

@@ -28,5 +28,19 @@ namespace TestProject1
 
             roboCrash.RoboIsApostar();*/
         }
+
+
+        [Fact]
+        public void TESTE_CONCATENAR()
+        {
+            string teste = "";
+            teste += '1';
+            teste += '0';
+            teste += '2';
+
+            Assert.Equal("102", teste);
+
+        }
+
     }
 }

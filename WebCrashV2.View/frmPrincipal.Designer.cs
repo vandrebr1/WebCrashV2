@@ -33,22 +33,24 @@ namespace WebCrashV2.View
             this.btnCapturarInformacao = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.txtPattern = new System.Windows.Forms.TextBox();
             this.btnCrash = new System.Windows.Forms.Button();
             this.txtValorAposta = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.txtMultiplicador = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.txtPattern = new System.Windows.Forms.TextBox();
+            this.btnAnalisarResultados = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
             // btnAbrirNavegador
             // 
-            this.btnAbrirNavegador.Location = new System.Drawing.Point(10, 30);
+            this.btnAbrirNavegador.Enabled = false;
+            this.btnAbrirNavegador.Location = new System.Drawing.Point(12, 28);
             this.btnAbrirNavegador.Name = "btnAbrirNavegador";
-            this.btnAbrirNavegador.Size = new System.Drawing.Size(140, 23);
+            this.btnAbrirNavegador.Size = new System.Drawing.Size(169, 23);
             this.btnAbrirNavegador.TabIndex = 0;
             this.btnAbrirNavegador.Text = "Abrir Navegador";
             this.btnAbrirNavegador.UseVisualStyleBackColor = true;
@@ -56,9 +58,9 @@ namespace WebCrashV2.View
             // 
             // btnCapturarInformacao
             // 
-            this.btnCapturarInformacao.Location = new System.Drawing.Point(10, 59);
+            this.btnCapturarInformacao.Location = new System.Drawing.Point(10, 61);
             this.btnCapturarInformacao.Name = "btnCapturarInformacao";
-            this.btnCapturarInformacao.Size = new System.Drawing.Size(140, 23);
+            this.btnCapturarInformacao.Size = new System.Drawing.Size(171, 23);
             this.btnCapturarInformacao.TabIndex = 1;
             this.btnCapturarInformacao.Text = "Capturar Informacao";
             this.btnCapturarInformacao.UseVisualStyleBackColor = true;
@@ -66,11 +68,12 @@ namespace WebCrashV2.View
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.btnAnalisarResultados);
             this.groupBox1.Controls.Add(this.btnCapturarInformacao);
             this.groupBox1.Controls.Add(this.btnAbrirNavegador);
             this.groupBox1.Location = new System.Drawing.Point(12, 12);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(193, 95);
+            this.groupBox1.Size = new System.Drawing.Size(193, 133);
             this.groupBox1.TabIndex = 9;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Testes";
@@ -84,12 +87,20 @@ namespace WebCrashV2.View
             this.groupBox2.Controls.Add(this.txtMultiplicador);
             this.groupBox2.Controls.Add(this.label2);
             this.groupBox2.Controls.Add(this.label1);
-            this.groupBox2.Location = new System.Drawing.Point(13, 113);
+            this.groupBox2.Location = new System.Drawing.Point(13, 151);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(192, 150);
             this.groupBox2.TabIndex = 11;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Automação";
+            // 
+            // txtPattern
+            // 
+            this.txtPattern.Location = new System.Drawing.Point(80, 30);
+            this.txtPattern.Name = "txtPattern";
+            this.txtPattern.Size = new System.Drawing.Size(100, 20);
+            this.txtPattern.TabIndex = 18;
+            this.txtPattern.Text = "11";
             // 
             // btnCrash
             // 
@@ -124,7 +135,7 @@ namespace WebCrashV2.View
             this.txtMultiplicador.Name = "txtMultiplicador";
             this.txtMultiplicador.Size = new System.Drawing.Size(100, 20);
             this.txtMultiplicador.TabIndex = 14;
-            this.txtMultiplicador.Text = "1,95";
+            this.txtMultiplicador.Text = "2";
             // 
             // label2
             // 
@@ -144,19 +155,21 @@ namespace WebCrashV2.View
             this.label1.TabIndex = 11;
             this.label1.Text = "Pattern";
             // 
-            // txtPattern
+            // btnAnalisarResultados
             // 
-            this.txtPattern.Location = new System.Drawing.Point(80, 30);
-            this.txtPattern.Name = "txtPattern";
-            this.txtPattern.Size = new System.Drawing.Size(100, 20);
-            this.txtPattern.TabIndex = 18;
-            this.txtPattern.Text = "000";
+            this.btnAnalisarResultados.Location = new System.Drawing.Point(10, 94);
+            this.btnAnalisarResultados.Name = "btnAnalisarResultados";
+            this.btnAnalisarResultados.Size = new System.Drawing.Size(171, 23);
+            this.btnAnalisarResultados.TabIndex = 2;
+            this.btnAnalisarResultados.Text = "Procurar Padrões";
+            this.btnAnalisarResultados.UseVisualStyleBackColor = true;
+            this.btnAnalisarResultados.Click += new System.EventHandler(this.btnAnalisarResultados_Click);
             // 
             // frmPrincipal
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(215, 278);
+            this.ClientSize = new System.Drawing.Size(215, 316);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.groupBox2);
             this.Name = "frmPrincipal";
@@ -181,6 +194,7 @@ namespace WebCrashV2.View
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox txtPattern;
+        private System.Windows.Forms.Button btnAnalisarResultados;
     }
 }
 

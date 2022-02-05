@@ -1,9 +1,6 @@
 ﻿using Serilog;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using WebCrashV2.LIB.Infraestrutura.Modelos;
 using WebCrashV2.LIB.Observable;
 using WebCrashV2.LIB.Repository.DB;
@@ -17,15 +14,32 @@ namespace WebCrashV2.LIB.Domain.Robo
         private readonly double Multiplicador;
         private readonly double TotalAposta;
         private TelaInformacoesRepository telaInformacoesRepository;
+        private ContabilidadeRepository contabilidadeRepository;
         private bool isInAposta = false;
+        private Contabilidade contabilidade;
 
         public RoboCrash(string pattern, double multiplicador, double totalAposta)
         {
             Pattern = pattern;
             Multiplicador = multiplicador;
             TotalAposta = totalAposta;
+            var dbSession = new DBSession();
+            telaInformacoesRepository = new TelaInformacoesRepository(dbSession);
+            contabilidadeRepository = new ContabilidadeRepository(dbSession);
 
-            telaInformacoesRepository = new TelaInformacoesRepository(new DBSession());
+            contabilidade = InicializarContabilidade(pattern, multiplicador, totalAposta);
+
+        }
+
+        private Contabilidade InicializarContabilidade(string pattern, double multiplicador, double totalAposta)
+        {
+            return new Contabilidade()
+            {
+                MultiplicadorApostado = multiplicador,
+                PatternApostado = pattern,
+                ValorApostado = totalAposta,
+
+            };
         }
 
         public void RoboIsApostar()
@@ -73,10 +87,11 @@ namespace WebCrashV2.LIB.Domain.Robo
             Log.Information($"Apostei: {TotalAposta} no multiplicador {Multiplicador}");
         }
 
-        public void FinalizaAposta()
+        public void FinalizaAposta(double multiplicadorFinalizado)
         {
             if (isInAposta)
             {
+                Derrota(multiplicadorFinalizado);
                 Log.Information($"Rodada finalizada - Derrota: {TotalAposta * -1}");
             }
             else
@@ -88,6 +103,26 @@ namespace WebCrashV2.LIB.Domain.Robo
             isInAposta = false;
         }
 
+        private void Derrota(double multiplicadorFinalizado)
+        {
+            contabilidade.DataHora = DateTime.Now;
+            contabilidade.VitoriaDerrota = "D";
+            contabilidade.Valor = TotalAposta * -1;
+            contabilidade.MultiplicadorCapturado = multiplicadorFinalizado;
+
+            contabilidadeRepository.Salvar(contabilidade);
+        }
+
+        private void Vitoria(double multiplicadorFinalizado)
+        {
+            contabilidade.DataHora = DateTime.Now;
+            contabilidade.VitoriaDerrota = "V";
+            contabilidade.Valor = (TotalAposta * Multiplicador) - TotalAposta;
+            contabilidade.MultiplicadorCapturado = multiplicadorFinalizado;
+
+            contabilidadeRepository.Salvar(contabilidade);
+        }
+
         public void ObterPremio(NavegadorService navegador)
         {
             if (isInAposta)
@@ -96,17 +131,20 @@ namespace WebCrashV2.LIB.Domain.Robo
 
                 if (multiplicadorAtual >= Multiplicador)
                 {
-                    Log.Information($"Lucro Obtido: {(TotalAposta * Multiplicador) - TotalAposta  }");
+                    Vitoria(multiplicadorAtual);
+                    Log.Information($"Lucro Obtido: {(TotalAposta * Multiplicador) - TotalAposta }");
                     isInAposta = false;
                 }
             }
         }
 
+        
+
         //ARRUMAR CONVERT DOUBLE MULTIPLOS LUGARES
         private double ConvertDouble(string valor)
         {
-            valor = valor.ToUpper().Replace("X", "").Replace(".", ",").Replace("RUB", "").Replace("BRL", "").Trim();
-            return Convert.ToDouble(valor);
+            valor = valor.Replace("x", "").Replace(".", ",");
+            return double.Parse(valor);
         }
 
     }

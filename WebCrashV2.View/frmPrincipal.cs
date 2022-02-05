@@ -55,5 +55,10 @@ namespace WebCrashV2.View
             jogoControlador.Iniciar();
 
         }
+
+        private void btnAnalisarResultados_Click(object sender, EventArgs e)
+        {
+            new frmProcurarPadrao().Show();
+        }
     }
 }
