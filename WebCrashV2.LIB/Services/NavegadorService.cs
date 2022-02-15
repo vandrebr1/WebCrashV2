@@ -27,17 +27,22 @@ namespace WebCrashV2.LIB.Services
 
         private void Inicializar()
         {
-            chromeOptions = new ChromeOptions();
+            var configuracoesJson = new ConfiguracoesJson();
 
+            chromeOptions = new ChromeOptions();
             chromeOptions.AddExcludedArgument("enable-automation");
             chromeOptions.AddAdditionalOption("useAutomationExtension", false);
             chromeOptions.AddArgument("--disable-infobars");
             chromeOptions.AddArgument("start-maximized");
             chromeOptions.AddArgument("--disable-extensions");
-            chromeOptions.AddArgument("--disable-gpu");
+            //chromeOptions.AddArgument("--disable-gpu");
             chromeOptions.PageLoadStrategy = PageLoadStrategy.Eager;
+            chromeOptions.AddArgument("--disable-blink-features=AutomationControlled");
+            chromeOptions.AddArgument($"--user-data-dir={configuracoesJson.GetUserDataDir()}");
+            chromeOptions.AddArgument($"--profile-directory={configuracoesJson.GetProfileDirectory()}");
 
             webDriver = new ChromeDriver(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), chromeOptions);
+
             webDriverWait = new WebDriverWait(webDriver, TimeSpan.FromSeconds(240));
 
         }

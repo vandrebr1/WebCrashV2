@@ -23,5 +23,8 @@ namespace WebCrashV2.LIB.Infraestrutura.Modelos
         public DateTime? DtDe { get; set; }
         public DateTime? DtAte { get; set; }
         public int? HoraUnica { get; set; }
+        public decimal ProporcaoAcertosErros { get; set; }
+        public int NumeroCaracteres { get; set; }
+        public int ValorEmDecimal { get; set; }
     }
 }

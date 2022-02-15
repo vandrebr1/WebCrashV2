@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Configuration;
+using WebCrashV2.LIB.Services;
 
 namespace WebCrashV2.LIB.Repository.DB
 {
@@ -6,12 +7,10 @@ namespace WebCrashV2.LIB.Repository.DB
     {
         public DBOption()
         {
-            var builder = new ConfigurationBuilder().AddJsonFile($"appsettings.json", true, true);
+            var configuracoesJson = new ConfiguracoesJson();
 
-            var config = builder.Build(); 
-
-            ConnectionString = config["DatabaseOptions:ConnectionString"];
-            ProviderName = config["DatabaseOptions:ProviderName"];
+            ConnectionString = configuracoesJson.GetConnectionString();
+            ProviderName = configuracoesJson.GetProviderName();
 
         }
 

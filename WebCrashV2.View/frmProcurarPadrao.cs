@@ -86,6 +86,10 @@ namespace WebCrashV2.View
                 analise.Erros = ordenado.QtdErros;
                 analise.TotalApostas = ordenado.TotalApostas;
                 analise.Ganhos = ganhos;
+                analise.ProporcaoAcertosErros = analise.Erros == 0 ? analise.Acertos : ((decimal)analise.Acertos / (decimal)analise.Erros);
+                analise.NumeroCaracteres = analise.Pattern.Length;
+                analise.ValorEmDecimal = Convert.ToInt32(analise.Pattern, 2);
+
 
                 if (rbGanhosPositivos.Checked)
                 {

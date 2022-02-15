@@ -15,8 +15,6 @@ namespace WebCrashV2.LIB.Domain.WebJogo
         private JogoStatusService jogoCaptura;
         private TelaInformacoesRepository telaInformacoesRepository;
         private List<IRoboObserver> _roboObservers = new List<IRoboObserver>();
-        //private const int RODADAS_ATUALIZA_PAGINA = 10;
-        //private int refreshPagina = 0;
 
         public JogoControlador()
         {
@@ -75,15 +73,6 @@ namespace WebCrashV2.LIB.Domain.WebJogo
                 AguardarAviaoExplodiu();
                 SalvarInformacoes();
 
-                /*if (refreshPagina == RODADAS_ATUALIZA_PAGINA)
-                {
-                    navegador.ReiniciarNavegacao();
-                    refreshPagina = 0;
-                }
-                else
-                {
-                    refreshPagina++;
-                }*/
             }
             catch (Exception ex)
             {
@@ -115,7 +104,7 @@ namespace WebCrashV2.LIB.Domain.WebJogo
             {
                 IsObterPremio(navegador);
 
-                //Thread.Sleep(5);
+                Thread.Sleep(5);
 
                 if (JogoDemorandoMuitoParaIniciar(dtInicial, 40))
                     throw new Exception("Jogo demorou muito para avião explodir!");
@@ -191,11 +180,11 @@ namespace WebCrashV2.LIB.Domain.WebJogo
 
         public void IsObterPremio(NavegadorService navegador)
         {
-            _roboObservers[0].ObterPremio(navegador);
-            /*foreach (var observerRobo in _roboObservers)
+
+            foreach (var observerRobo in _roboObservers)
             {
-                observerRobo.ObterPremio(navegador);
-            }*/
+                _roboObservers[0].ObterPremio(navegador);
+            }
         }
 
         public void FinalizaAposta(double multiplicadorFinalizado)

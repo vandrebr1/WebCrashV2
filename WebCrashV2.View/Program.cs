@@ -16,7 +16,7 @@ namespace WebCrashV2.View
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new frmProcurarPadrao());
+            Application.Run(new frmPrincipal());
         }
     }
 }

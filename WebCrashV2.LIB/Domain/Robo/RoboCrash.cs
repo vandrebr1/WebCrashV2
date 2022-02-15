@@ -10,33 +10,33 @@ namespace WebCrashV2.LIB.Domain.Robo
 {
     public class RoboCrash : IRoboObserver
     {
-        private readonly string Pattern;
+        private readonly List<string> Patterns;
         private readonly double Multiplicador;
         private readonly double TotalAposta;
         private TelaInformacoesRepository telaInformacoesRepository;
         private ContabilidadeRepository contabilidadeRepository;
         private bool isInAposta = false;
         private Contabilidade contabilidade;
+        private string PatternApostado;
 
-        public RoboCrash(string pattern, double multiplicador, double totalAposta)
+        public RoboCrash(List<string> patterns, double multiplicador, double totalAposta)
         {
-            Pattern = pattern;
+            Patterns = patterns;
             Multiplicador = multiplicador;
             TotalAposta = totalAposta;
             var dbSession = new DBSession();
             telaInformacoesRepository = new TelaInformacoesRepository(dbSession);
             contabilidadeRepository = new ContabilidadeRepository(dbSession);
 
-            contabilidade = InicializarContabilidade(pattern, multiplicador, totalAposta);
+            contabilidade = InicializarContabilidade(multiplicador, totalAposta);
 
         }
 
-        private Contabilidade InicializarContabilidade(string pattern, double multiplicador, double totalAposta)
+        private Contabilidade InicializarContabilidade(double multiplicador, double totalAposta)
         {
             return new Contabilidade()
             {
                 MultiplicadorApostado = multiplicador,
-                PatternApostado = pattern,
                 ValorApostado = totalAposta,
 
             };
@@ -45,16 +45,22 @@ namespace WebCrashV2.LIB.Domain.Robo
         public void RoboIsApostar()
         {
             Log.Information($"Verificando Apostar");
-            var ultimosResultadosPattern = telaInformacoesRepository.GetUltimosResultadosPattern(Pattern.Length);
-            string ultimoPattern = ConvertPattern(ultimosResultadosPattern);
 
-            if (ultimoPattern == Pattern)
+            foreach (var pattern in Patterns)
             {
-                Apostar();
-            }
-            else
-            {
-                Log.Information($"Pattern {Pattern} # {ultimoPattern}");
+                var ultimosResultadosPattern = telaInformacoesRepository.GetUltimosResultadosPattern(pattern.Length);
+                string ultimoPattern = ConvertPattern(ultimosResultadosPattern);
+
+                if (ultimoPattern == pattern)
+                {
+                    Apostar(pattern);
+                    break;
+                }
+                else
+                {
+                    Log.Information($"Pattern {pattern} # {ultimoPattern}");
+                }
+                
             }
         }
 
@@ -81,10 +87,11 @@ namespace WebCrashV2.LIB.Domain.Robo
             return patternConvertido;
         }
 
-        private void Apostar()
+        private void Apostar(string patternApostado)
         {
             isInAposta = true;
-            Log.Information($"Apostei: {TotalAposta} no multiplicador {Multiplicador}");
+            PatternApostado = patternApostado;
+            Log.Information($"Apostei: {TotalAposta} | multiplicador: {Multiplicador} | pattern: {PatternApostado}");
         }
 
         public void FinalizaAposta(double multiplicadorFinalizado)
@@ -101,6 +108,7 @@ namespace WebCrashV2.LIB.Domain.Robo
             }
 
             isInAposta = false;
+            PatternApostado = "";
         }
 
         private void Derrota(double multiplicadorFinalizado)
@@ -109,6 +117,7 @@ namespace WebCrashV2.LIB.Domain.Robo
             contabilidade.VitoriaDerrota = "D";
             contabilidade.Valor = TotalAposta * -1;
             contabilidade.MultiplicadorCapturado = multiplicadorFinalizado;
+            contabilidade.PatternApostado = PatternApostado;
 
             contabilidadeRepository.Salvar(contabilidade);
         }
@@ -119,6 +128,7 @@ namespace WebCrashV2.LIB.Domain.Robo
             contabilidade.VitoriaDerrota = "V";
             contabilidade.Valor = (TotalAposta * Multiplicador) - TotalAposta;
             contabilidade.MultiplicadorCapturado = multiplicadorFinalizado;
+            contabilidade.PatternApostado = PatternApostado;
 
             contabilidadeRepository.Salvar(contabilidade);
         }
@@ -138,7 +148,7 @@ namespace WebCrashV2.LIB.Domain.Robo
             }
         }
 
-        
+
 
         //ARRUMAR CONVERT DOUBLE MULTIPLOS LUGARES
         private double ConvertDouble(string valor)

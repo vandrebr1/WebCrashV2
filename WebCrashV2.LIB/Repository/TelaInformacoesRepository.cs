@@ -31,7 +31,7 @@ namespace WebCrashV2.LIB.Repository.DB
 
         public IEnumerable<TelaInformacoes> SelecionarTodos()
         {
-            return session.Connection.GetList<TelaInformacoes>();
+            return session.Connection.GetList<TelaInformacoes>().OrderBy(e => e.HorarioCaptura);
         }
 
         public List<TelaInformacoes> GetUltimosResultadosPattern(int patternLength)

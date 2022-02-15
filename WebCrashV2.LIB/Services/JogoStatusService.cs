@@ -31,7 +31,17 @@ namespace WebCrashV2.LIB.Services
         public bool AviaoExplodiu()
         {
 
-            var aviaoVoando = navegador.FindElementsByClassName("crash-game__mountains--game");
+            try
+            {
+                navegador.FindElementByClassName("crash-game__mountains--game");
+                return false;
+            }
+            catch
+            {
+                return true;
+            }
+
+            /*var aviaoVoando = navegador.FindElementsByClassName("crash-game__mountains--game");
 
             if (aviaoVoando.Count > 0)
             {
@@ -41,7 +51,7 @@ namespace WebCrashV2.LIB.Services
             {
                 Log.Information($"Avião explodiu");
                 return true;
-            }
+            }*/
         }
 
         public bool ContagemRegressivaIniciou()
@@ -77,6 +87,20 @@ namespace WebCrashV2.LIB.Services
             }
 
             return false;
+        }
+
+        public bool UsuarioLogado()
+        {
+            try
+            {
+                var logado = navegador.FindElementByClassName("wrap_lk").Text;
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+
         }
     }
 }
