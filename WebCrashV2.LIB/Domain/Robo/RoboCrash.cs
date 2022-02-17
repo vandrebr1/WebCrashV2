@@ -18,8 +18,9 @@ namespace WebCrashV2.LIB.Domain.Robo
         private bool isInAposta = false;
         private Contabilidade contabilidade;
         private string PatternApostado;
+        NavegadorService Navegador;
 
-        public RoboCrash(List<string> patterns, double multiplicador, double totalAposta)
+        public RoboCrash(NavegadorService navegador, List<string> patterns, double multiplicador, double totalAposta)
         {
             Patterns = patterns;
             Multiplicador = multiplicador;
@@ -29,6 +30,7 @@ namespace WebCrashV2.LIB.Domain.Robo
             contabilidadeRepository = new ContabilidadeRepository(dbSession);
 
             contabilidade = InicializarContabilidade(multiplicador, totalAposta);
+            Navegador = navegador;
 
         }
 
@@ -60,7 +62,7 @@ namespace WebCrashV2.LIB.Domain.Robo
                 {
                     Log.Information($"Pattern {pattern} # {ultimoPattern}");
                 }
-                
+
             }
         }
 
@@ -91,6 +93,8 @@ namespace WebCrashV2.LIB.Domain.Robo
         {
             isInAposta = true;
             PatternApostado = patternApostado;
+            Navegador.SetElementById("crash-bet", TotalAposta);
+            Navegador.ClickById("crash-btn crash-bet__btn crash-bet__btn--play");
             Log.Information($"Apostei: {TotalAposta} | multiplicador: {Multiplicador} | pattern: {PatternApostado}");
         }
 
@@ -141,6 +145,7 @@ namespace WebCrashV2.LIB.Domain.Robo
 
                 if (multiplicadorAtual >= Multiplicador)
                 {
+                    Navegador.ClickById("crash-btn crash-bet__btn crash-bet__btn--stop");
                     Vitoria(multiplicadorAtual);
                     Log.Information($"Lucro Obtido: {(TotalAposta * Multiplicador) - TotalAposta }");
                     isInAposta = false;

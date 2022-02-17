@@ -40,18 +40,6 @@ namespace WebCrashV2.LIB.Services
             {
                 return true;
             }
-
-            /*var aviaoVoando = navegador.FindElementsByClassName("crash-game__mountains--game");
-
-            if (aviaoVoando.Count > 0)
-            {
-                return false;
-            }
-            else
-            {
-                Log.Information($"Avião explodiu");
-                return true;
-            }*/
         }
 
         public bool ContagemRegressivaIniciou()

@@ -20,7 +20,9 @@ namespace WebCrashV2.View
 {
     public partial class frmPrincipal : Form
     {
-        IEnumerable<PatternsJogar> patternsJogar;
+        private IEnumerable<PatternsJogar> patternsJogar;
+        private readonly NavegadorService Navegador = new NavegadorService();
+
         public frmPrincipal()
         {
             InitializeComponent();
@@ -61,10 +63,11 @@ namespace WebCrashV2.View
 
         }
 
-        private void SalvarConfiguracoes(double multiplicador, double valorAposta, bool apostarPraValer)
+        private void SalvarConfiguracoes(double multiplicador, double valorAposta, bool apostarPraValer,
+            int qtdNegativasParar, int qtdPositivasParar)
         {
             var configRepo = new ConfiguracoesRepository(new DBSession());
-            var config = new Configuracoes(0, multiplicador, valorAposta, apostarPraValer);
+            var config = new Configuracoes(0, multiplicador, valorAposta, apostarPraValer, qtdNegativasParar, qtdPositivasParar);
             configRepo.Salvar(config);
         }
 
@@ -76,7 +79,8 @@ namespace WebCrashV2.View
 
         private void btnCapturarInformacao_Click(object sender, EventArgs e)
         {
-            var jogoControlador = new JogoControlador();
+
+            var jogoControlador = new JogoControlador(Navegador);
             jogoControlador.Iniciar();
 
         }
@@ -94,12 +98,15 @@ namespace WebCrashV2.View
             double multiplicador = Convert.ToDouble(txtMultiplicador.Text, new CultureInfo("pt-BR"));
             double valorAposta = Convert.ToDouble(txtValorAposta.Text, new CultureInfo("pt-BR"));
             bool apostarPraValer = chkApostarPraValer.Checked;
+            int qtdNegativasParar = Convert.ToInt32(txtValorAposta.Text);
+            int qtdPositivasParar = Convert.ToInt32(txtValorAposta.Text);
 
-            SalvarConfiguracoes(multiplicador, valorAposta, apostarPraValer);
+            SalvarConfiguracoes(multiplicador, valorAposta, apostarPraValer,
+                                qtdNegativasParar, qtdPositivasParar);
 
-            var roboCrash = new RoboCrash(patterns, multiplicador, valorAposta);
+            var roboCrash = new RoboCrash(Navegador, patterns, multiplicador, valorAposta);
 
-            var jogoControlador = new JogoControlador();
+            var jogoControlador = new JogoControlador(Navegador);
             jogoControlador.AttachRobo(roboCrash);
 
             jogoControlador.Iniciar();
@@ -114,10 +121,9 @@ namespace WebCrashV2.View
         {
             btnCrash.Enabled = false;
 
-            var navegador = new NavegadorService();
-            var jogoCaptura = new JogoStatusService(navegador);
+            var jogoCaptura = new JogoStatusService(Navegador);
 
-            navegador.AbrirNavegador();
+            Navegador.AbrirNavegador();
 
             while (!jogoCaptura.UsuarioLogado())
             {
@@ -128,8 +134,6 @@ namespace WebCrashV2.View
             lblUsuario.Text = "Logado!";
             btnAbrirELogar.Enabled = false;
             btnCrash.Enabled = true;
-
-
         }
 
         private void btnDesativar_Click(object sender, EventArgs e)
@@ -149,5 +153,6 @@ namespace WebCrashV2.View
             new frmPatternJogarAdicionar().ShowDialog();
             CarregarPatternsJogar();
         }
+
     }
 }

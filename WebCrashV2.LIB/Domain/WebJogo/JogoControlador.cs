@@ -11,15 +11,16 @@ namespace WebCrashV2.LIB.Domain.WebJogo
 {
     public class JogoControlador : IJogoSubject
     {
-        private NavegadorService navegador;
+        private NavegadorService Navegador;
         private JogoStatusService jogoCaptura;
         private TelaInformacoesRepository telaInformacoesRepository;
         private List<IRoboObserver> _roboObservers = new List<IRoboObserver>();
+        private int totalGanhos;
 
-        public JogoControlador()
+        public JogoControlador(NavegadorService navegador )
         {
-            navegador = new NavegadorService();
-            jogoCaptura = new JogoStatusService(navegador);
+            Navegador = navegador;
+            jogoCaptura = new JogoStatusService(Navegador);
             telaInformacoesRepository = new TelaInformacoesRepository(new DBSession());
         }
 
@@ -32,7 +33,8 @@ namespace WebCrashV2.LIB.Domain.WebJogo
 
                 while (true)
                 {
-                    CapturaInformacoes();
+                    //if (totalGanhos < -10 || totalGanhos < 10)
+                        CapturaInformacoes();
                 }
             }
             catch (Exception ex)
@@ -52,11 +54,11 @@ namespace WebCrashV2.LIB.Domain.WebJogo
 
         public bool AguardarAbrirNavegador()
         {
-            bool navegadorAberto = navegador.AbrirNavegador();
+            bool navegadorAberto = Navegador.AbrirNavegador();
 
             while (!navegadorAberto)
             {
-                navegadorAberto = navegador.ReiniciarNavegacao();
+                navegadorAberto = Navegador.ReiniciarNavegacao();
             }
 
             return true;
@@ -79,14 +81,14 @@ namespace WebCrashV2.LIB.Domain.WebJogo
                 Log.Error($"CapturaInformacoes() {ex.Message}");
                 FinalizaAposta(-1);
                 SalvarInformacoesJogoErro();
-                navegador.ReiniciarNavegacao();
+                Navegador.ReiniciarNavegacao();
             }
 
         }
 
         private void SalvarInformacoes()
         {
-            var capturaTela = new CapturaDadosTela(navegador);
+            var capturaTela = new CapturaDadosTela(Navegador);
             var telaInformacoes = capturaTela.ConvertToTelaInformacoes();
 
             Log.Information($"SALVANDO INFORMAÇÕES");
@@ -102,7 +104,7 @@ namespace WebCrashV2.LIB.Domain.WebJogo
 
             while (!jogoCaptura.AviaoExplodiu())
             {
-                IsObterPremio(navegador);
+                IsObterPremio(Navegador);
 
                 Thread.Sleep(5);
 

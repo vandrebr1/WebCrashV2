@@ -75,3 +75,16 @@ SELECT *, IIF(PrimeiroBin=0 AND SegundoBin=1,1,-1) FROM (
 WHERE PrimeiroBin = 0
 
 
+SELECT *, (SELECT SUM([Valor])
+			FROM [WebCrashV2].[dbo].[Contabilidade]
+			where DataHora >= '2022-02-14 19:57:03.850' AND Id <=Cont.Id)
+FROM [WebCrashV2].[dbo].[Contabilidade] AS Cont
+where DataHora >= '2022-02-14 19:57:03.850'
+
+
+SELECT *
+FROM [WebCrashV2].[dbo].[Contabilidade] AS Cont
+INNER JOIN PatternsJogar
+ON Cont.PatternApostado = PatternsJogar.Pattern
+where DataHora >= '2022-02-14 19:57:03.850' AND GeradoPeloComputador = 0
+

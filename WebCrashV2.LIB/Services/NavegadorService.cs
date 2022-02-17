@@ -104,5 +104,34 @@ namespace WebCrashV2.LIB.Services
             }
         }
 
+        public void SetElementById(string id, double valor)
+        {
+
+            try
+            {
+                webDriver.FindElement(By.Id(id)).SendKeys(valor.ToString());
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+
+        public void ClickById(string classname)
+        {
+           var btn = FindElementByClassName(classname);
+
+            try
+            {
+                btn.Click();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+
     }
 }

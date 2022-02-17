@@ -43,12 +43,20 @@ namespace WebCrashV2.View
             this.label2 = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.btnDesativarIgnorar = new System.Windows.Forms.Button();
+            this.btnAdicionarIgnorar = new System.Windows.Forms.Button();
+            this.dgPatternsIgnorar = new System.Windows.Forms.DataGridView();
             this.btnDesativar = new System.Windows.Forms.Button();
             this.btnAdicionar = new System.Windows.Forms.Button();
             this.dgPatternsJogar = new System.Windows.Forms.DataGridView();
+            this.label1 = new System.Windows.Forms.Label();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.label4 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgPatternsIgnorar)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgPatternsJogar)).BeginInit();
             this.SuspendLayout();
             // 
@@ -148,7 +156,7 @@ namespace WebCrashV2.View
             this.txtValorAposta.Location = new System.Drawing.Point(101, 104);
             this.txtValorAposta.Margin = new System.Windows.Forms.Padding(4);
             this.txtValorAposta.Name = "txtValorAposta";
-            this.txtValorAposta.Size = new System.Drawing.Size(116, 25);
+            this.txtValorAposta.Size = new System.Drawing.Size(86, 25);
             this.txtValorAposta.TabIndex = 16;
             this.txtValorAposta.Text = "100";
             // 
@@ -167,7 +175,7 @@ namespace WebCrashV2.View
             this.txtMultiplicador.Location = new System.Drawing.Point(101, 70);
             this.txtMultiplicador.Margin = new System.Windows.Forms.Padding(4);
             this.txtMultiplicador.Name = "txtMultiplicador";
-            this.txtMultiplicador.Size = new System.Drawing.Size(116, 25);
+            this.txtMultiplicador.Size = new System.Drawing.Size(86, 25);
             this.txtMultiplicador.TabIndex = 14;
             this.txtMultiplicador.Text = "2";
             // 
@@ -183,6 +191,10 @@ namespace WebCrashV2.View
             // 
             // groupBox3
             // 
+            this.groupBox3.Controls.Add(this.textBox2);
+            this.groupBox3.Controls.Add(this.label4);
+            this.groupBox3.Controls.Add(this.label1);
+            this.groupBox3.Controls.Add(this.textBox1);
             this.groupBox3.Controls.Add(this.txtValorAposta);
             this.groupBox3.Controls.Add(this.chkApostarPraValer);
             this.groupBox3.Controls.Add(this.label2);
@@ -192,13 +204,16 @@ namespace WebCrashV2.View
             this.groupBox3.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Padding = new System.Windows.Forms.Padding(4);
-            this.groupBox3.Size = new System.Drawing.Size(229, 164);
+            this.groupBox3.Size = new System.Drawing.Size(695, 164);
             this.groupBox3.TabIndex = 21;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Configurações Sistema";
             // 
             // groupBox4
             // 
+            this.groupBox4.Controls.Add(this.btnDesativarIgnorar);
+            this.groupBox4.Controls.Add(this.btnAdicionarIgnorar);
+            this.groupBox4.Controls.Add(this.dgPatternsIgnorar);
             this.groupBox4.Controls.Add(this.btnDesativar);
             this.groupBox4.Controls.Add(this.btnAdicionar);
             this.groupBox4.Controls.Add(this.dgPatternsJogar);
@@ -211,9 +226,38 @@ namespace WebCrashV2.View
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Patterns Jogar";
             // 
+            // btnDesativarIgnorar
+            // 
+            this.btnDesativarIgnorar.Location = new System.Drawing.Point(721, 31);
+            this.btnDesativarIgnorar.Name = "btnDesativarIgnorar";
+            this.btnDesativarIgnorar.Size = new System.Drawing.Size(86, 33);
+            this.btnDesativarIgnorar.TabIndex = 28;
+            this.btnDesativarIgnorar.Text = "Desativar";
+            this.btnDesativarIgnorar.UseVisualStyleBackColor = true;
+            // 
+            // btnAdicionarIgnorar
+            // 
+            this.btnAdicionarIgnorar.Location = new System.Drawing.Point(627, 31);
+            this.btnAdicionarIgnorar.Name = "btnAdicionarIgnorar";
+            this.btnAdicionarIgnorar.Size = new System.Drawing.Size(86, 33);
+            this.btnAdicionarIgnorar.TabIndex = 27;
+            this.btnAdicionarIgnorar.Text = "Adicionar";
+            this.btnAdicionarIgnorar.UseVisualStyleBackColor = true;
+            // 
+            // dgPatternsIgnorar
+            // 
+            this.dgPatternsIgnorar.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dgPatternsIgnorar.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgPatternsIgnorar.Location = new System.Drawing.Point(627, 71);
+            this.dgPatternsIgnorar.Margin = new System.Windows.Forms.Padding(4);
+            this.dgPatternsIgnorar.Name = "dgPatternsIgnorar";
+            this.dgPatternsIgnorar.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dgPatternsIgnorar.Size = new System.Drawing.Size(287, 272);
+            this.dgPatternsIgnorar.TabIndex = 26;
+            // 
             // btnDesativar
             // 
-            this.btnDesativar.Location = new System.Drawing.Point(7, 70);
+            this.btnDesativar.Location = new System.Drawing.Point(101, 31);
             this.btnDesativar.Name = "btnDesativar";
             this.btnDesativar.Size = new System.Drawing.Size(86, 33);
             this.btnDesativar.TabIndex = 25;
@@ -235,12 +279,50 @@ namespace WebCrashV2.View
             // 
             this.dgPatternsJogar.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgPatternsJogar.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgPatternsJogar.Location = new System.Drawing.Point(101, 31);
+            this.dgPatternsJogar.Location = new System.Drawing.Point(8, 71);
             this.dgPatternsJogar.Margin = new System.Windows.Forms.Padding(4);
             this.dgPatternsJogar.Name = "dgPatternsJogar";
             this.dgPatternsJogar.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgPatternsJogar.Size = new System.Drawing.Size(820, 312);
+            this.dgPatternsJogar.Size = new System.Drawing.Size(611, 272);
             this.dgPatternsJogar.TabIndex = 0;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(195, 74);
+            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(119, 17);
+            this.label1.TabIndex = 21;
+            this.label1.Text = "Qtd Positivas Parar";
+            // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(330, 70);
+            this.textBox1.Margin = new System.Windows.Forms.Padding(4);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(86, 25);
+            this.textBox1.TabIndex = 22;
+            this.textBox1.Text = "6";
+            // 
+            // textBox2
+            // 
+            this.textBox2.Location = new System.Drawing.Point(330, 104);
+            this.textBox2.Margin = new System.Windows.Forms.Padding(4);
+            this.textBox2.Name = "textBox2";
+            this.textBox2.Size = new System.Drawing.Size(86, 25);
+            this.textBox2.TabIndex = 24;
+            this.textBox2.Text = "10";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(195, 108);
+            this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(127, 17);
+            this.label4.TabIndex = 23;
+            this.label4.Text = "Qtd Negativas Parar";
             // 
             // frmPrincipal
             // 
@@ -261,6 +343,7 @@ namespace WebCrashV2.View
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
             this.groupBox4.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dgPatternsIgnorar)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgPatternsJogar)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -286,6 +369,13 @@ namespace WebCrashV2.View
         private System.Windows.Forms.DataGridView dgPatternsJogar;
         private System.Windows.Forms.Button btnDesativar;
         private System.Windows.Forms.Button btnAdicionar;
+        private System.Windows.Forms.DataGridView dgPatternsIgnorar;
+        private System.Windows.Forms.Button btnDesativarIgnorar;
+        private System.Windows.Forms.Button btnAdicionarIgnorar;
+        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.TextBox textBox1;
     }
 }
 

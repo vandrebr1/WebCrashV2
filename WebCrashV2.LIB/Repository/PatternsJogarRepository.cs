@@ -34,17 +34,12 @@ namespace WebCrashV2.LIB.Repository.DB
             return session.Connection.GetList<PatternsJogar>().Where(e => e.Ativo = true).OrderBy(e => e.Id);
         }
 
-
-        public Configuracoes SelectById(int Id)
-        {
-            return session.Connection.Get<Configuracoes>(Id);
-        }
-
         public int? Apagar(PatternsJogar entity)
         {
             try
             {
-                return session.Connection.Delete(entity);
+                var patternsIgnorar = new PatternsIgnorarRepository(session).Apagar(entity);
+                var totalExcluido = session.Connection.Delete(entity);
             }
             catch (Exception ex)
             {
