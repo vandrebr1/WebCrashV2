@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading;
+using WebCrashV2.LIB.Domain.ConfiguracoesAtivas;
 using WebCrashV2.LIB.Infraestrutura.Modelos;
 using WebCrashV2.LIB.Observable;
 using WebCrashV2.LIB.Repository.DB;
@@ -15,9 +16,8 @@ namespace WebCrashV2.LIB.Domain.WebJogo
         private JogoStatusService jogoCaptura;
         private TelaInformacoesRepository telaInformacoesRepository;
         private List<IRoboObserver> _roboObservers = new List<IRoboObserver>();
-        private int totalGanhos;
 
-        public JogoControlador(NavegadorService navegador )
+        public JogoControlador(NavegadorService navegador)
         {
             Navegador = navegador;
             jogoCaptura = new JogoStatusService(Navegador);
@@ -33,8 +33,7 @@ namespace WebCrashV2.LIB.Domain.WebJogo
 
                 while (true)
                 {
-                    //if (totalGanhos < -10 || totalGanhos < 10)
-                        CapturaInformacoes();
+                    CapturaInformacoes();
                 }
             }
             catch (Exception ex)

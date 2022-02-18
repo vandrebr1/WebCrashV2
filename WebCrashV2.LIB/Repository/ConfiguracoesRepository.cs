@@ -20,6 +20,16 @@ namespace WebCrashV2.LIB.Repository.DB
         {
             try
             {
+                if (entity.QtdNegativasParar > 0)
+                {
+                    entity.QtdNegativasParar *= -1;
+                }
+
+                if (entity.QtdPositivasParar < 0)
+                {
+                    entity.QtdNegativasParar *= -1;
+                }
+
                 return session.Connection.Insert(entity);
             }
             catch (Exception ex)

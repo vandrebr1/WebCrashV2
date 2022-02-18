@@ -42,6 +42,10 @@ namespace WebCrashV2.View
             this.txtMultiplicador = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.txtQtdNegativaParar = new System.Windows.Forms.TextBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.txtQtdPositivaParar = new System.Windows.Forms.TextBox();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.btnDesativarIgnorar = new System.Windows.Forms.Button();
             this.btnAdicionarIgnorar = new System.Windows.Forms.Button();
@@ -49,10 +53,6 @@ namespace WebCrashV2.View
             this.btnDesativar = new System.Windows.Forms.Button();
             this.btnAdicionar = new System.Windows.Forms.Button();
             this.dgPatternsJogar = new System.Windows.Forms.DataGridView();
-            this.label1 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.label4 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox4.SuspendLayout();
@@ -121,6 +121,7 @@ namespace WebCrashV2.View
             // chkApostarPraValer
             // 
             this.chkApostarPraValer.AutoSize = true;
+            this.chkApostarPraValer.Enabled = false;
             this.chkApostarPraValer.Location = new System.Drawing.Point(14, 40);
             this.chkApostarPraValer.Margin = new System.Windows.Forms.Padding(4);
             this.chkApostarPraValer.Name = "chkApostarPraValer";
@@ -191,10 +192,10 @@ namespace WebCrashV2.View
             // 
             // groupBox3
             // 
-            this.groupBox3.Controls.Add(this.textBox2);
+            this.groupBox3.Controls.Add(this.txtQtdNegativaParar);
             this.groupBox3.Controls.Add(this.label4);
             this.groupBox3.Controls.Add(this.label1);
-            this.groupBox3.Controls.Add(this.textBox1);
+            this.groupBox3.Controls.Add(this.txtQtdPositivaParar);
             this.groupBox3.Controls.Add(this.txtValorAposta);
             this.groupBox3.Controls.Add(this.chkApostarPraValer);
             this.groupBox3.Controls.Add(this.label2);
@@ -208,6 +209,44 @@ namespace WebCrashV2.View
             this.groupBox3.TabIndex = 21;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Configurações Sistema";
+            // 
+            // txtQtdNegativaParar
+            // 
+            this.txtQtdNegativaParar.Location = new System.Drawing.Point(330, 104);
+            this.txtQtdNegativaParar.Margin = new System.Windows.Forms.Padding(4);
+            this.txtQtdNegativaParar.Name = "txtQtdNegativaParar";
+            this.txtQtdNegativaParar.Size = new System.Drawing.Size(86, 25);
+            this.txtQtdNegativaParar.TabIndex = 24;
+            this.txtQtdNegativaParar.Text = "10";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(195, 108);
+            this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(127, 17);
+            this.label4.TabIndex = 23;
+            this.label4.Text = "Qtd Negativas Parar";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(195, 74);
+            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(119, 17);
+            this.label1.TabIndex = 21;
+            this.label1.Text = "Qtd Positivas Parar";
+            // 
+            // txtQtdPositivaParar
+            // 
+            this.txtQtdPositivaParar.Location = new System.Drawing.Point(330, 70);
+            this.txtQtdPositivaParar.Margin = new System.Windows.Forms.Padding(4);
+            this.txtQtdPositivaParar.Name = "txtQtdPositivaParar";
+            this.txtQtdPositivaParar.Size = new System.Drawing.Size(86, 25);
+            this.txtQtdPositivaParar.TabIndex = 22;
+            this.txtQtdPositivaParar.Text = "6";
             // 
             // groupBox4
             // 
@@ -286,44 +325,6 @@ namespace WebCrashV2.View
             this.dgPatternsJogar.Size = new System.Drawing.Size(611, 272);
             this.dgPatternsJogar.TabIndex = 0;
             // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(195, 74);
-            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(119, 17);
-            this.label1.TabIndex = 21;
-            this.label1.Text = "Qtd Positivas Parar";
-            // 
-            // textBox1
-            // 
-            this.textBox1.Location = new System.Drawing.Point(330, 70);
-            this.textBox1.Margin = new System.Windows.Forms.Padding(4);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(86, 25);
-            this.textBox1.TabIndex = 22;
-            this.textBox1.Text = "6";
-            // 
-            // textBox2
-            // 
-            this.textBox2.Location = new System.Drawing.Point(330, 104);
-            this.textBox2.Margin = new System.Windows.Forms.Padding(4);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(86, 25);
-            this.textBox2.TabIndex = 24;
-            this.textBox2.Text = "10";
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(195, 108);
-            this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(127, 17);
-            this.label4.TabIndex = 23;
-            this.label4.Text = "Qtd Negativas Parar";
-            // 
             // frmPrincipal
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
@@ -372,10 +373,10 @@ namespace WebCrashV2.View
         private System.Windows.Forms.DataGridView dgPatternsIgnorar;
         private System.Windows.Forms.Button btnDesativarIgnorar;
         private System.Windows.Forms.Button btnAdicionarIgnorar;
-        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.TextBox txtQtdNegativaParar;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox txtQtdPositivaParar;
     }
 }
 

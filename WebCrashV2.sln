@@ -7,10 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebCrashV2.LIB", "WebCrashV
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebCrashV2.View", "WebCrashV2.View\WebCrashV2.View.csproj", "{9020DE1B-2EC8-48C2-8A6A-A69FB3DBEDA3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestProject1", "TestProject1\TestProject1.csproj", "{F6C7A289-0FD9-443D-9BBF-749F64D5BA1B}"
-	ProjectSection(ProjectDependencies) = postProject
-		{8A25C12A-3BDE-4C0B-9C2E-F242F0E02E27} = {8A25C12A-3BDE-4C0B-9C2E-F242F0E02E27}
-	EndProjectSection
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Testes", "Testes\Testes.csproj", "{6B6382B0-5203-4E3A-B2BF-ED154A2E6140}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -26,10 +23,10 @@ Global
 		{9020DE1B-2EC8-48C2-8A6A-A69FB3DBEDA3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9020DE1B-2EC8-48C2-8A6A-A69FB3DBEDA3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9020DE1B-2EC8-48C2-8A6A-A69FB3DBEDA3}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F6C7A289-0FD9-443D-9BBF-749F64D5BA1B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F6C7A289-0FD9-443D-9BBF-749F64D5BA1B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F6C7A289-0FD9-443D-9BBF-749F64D5BA1B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F6C7A289-0FD9-443D-9BBF-749F64D5BA1B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6B6382B0-5203-4E3A-B2BF-ED154A2E6140}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6B6382B0-5203-4E3A-B2BF-ED154A2E6140}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6B6382B0-5203-4E3A-B2BF-ED154A2E6140}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6B6382B0-5203-4E3A-B2BF-ED154A2E6140}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -158,6 +158,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Domain\ConfiguracoesAtivas\ConfiguracaoAtiva.cs" />
     <Compile Include="Domain\ProcurarPadrao\AnaliseIntervaloDiasAgrupadoHora.cs" />
     <Compile Include="Domain\ProcurarPadrao\AnaliseTodoPeriodo.cs" />
     <Compile Include="Domain\ProcurarPadrao\ConfiguracaoExibicaoGanhosPositivo.cs" />

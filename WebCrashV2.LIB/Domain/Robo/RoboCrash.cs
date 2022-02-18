@@ -1,6 +1,7 @@
 ﻿using Serilog;
 using System;
 using System.Collections.Generic;
+using WebCrashV2.LIB.Domain.ConfiguracoesAtivas;
 using WebCrashV2.LIB.Infraestrutura.Modelos;
 using WebCrashV2.LIB.Observable;
 using WebCrashV2.LIB.Repository.DB;
@@ -10,6 +11,9 @@ namespace WebCrashV2.LIB.Domain.Robo
 {
     public class RoboCrash : IRoboObserver
     {
+        public bool PararApostas { get; set; } = false;
+        private int QtdVitoriasDerrotas = 0;
+
         private readonly List<string> Patterns;
         private readonly double Multiplicador;
         private readonly double TotalAposta;
@@ -91,12 +95,16 @@ namespace WebCrashV2.LIB.Domain.Robo
 
         private void Apostar(string patternApostado)
         {
+
             isInAposta = true;
             PatternApostado = patternApostado;
-            Navegador.SetElementById("crash-bet", TotalAposta);
-            Navegador.ClickById("crash-btn crash-bet__btn crash-bet__btn--play");
+
+            ClicarEmApostar();
+
             Log.Information($"Apostei: {TotalAposta} | multiplicador: {Multiplicador} | pattern: {PatternApostado}");
         }
+
+
 
         public void FinalizaAposta(double multiplicadorFinalizado)
         {
@@ -124,6 +132,10 @@ namespace WebCrashV2.LIB.Domain.Robo
             contabilidade.PatternApostado = PatternApostado;
 
             contabilidadeRepository.Salvar(contabilidade);
+
+            QtdVitoriasDerrotas--;
+
+
         }
 
         private void Vitoria(double multiplicadorFinalizado)
@@ -135,6 +147,7 @@ namespace WebCrashV2.LIB.Domain.Robo
             contabilidade.PatternApostado = PatternApostado;
 
             contabilidadeRepository.Salvar(contabilidade);
+            QtdVitoriasDerrotas++;
         }
 
         public void ObterPremio(NavegadorService navegador)
@@ -145,7 +158,8 @@ namespace WebCrashV2.LIB.Domain.Robo
 
                 if (multiplicadorAtual >= Multiplicador)
                 {
-                    Navegador.ClickById("crash-btn crash-bet__btn crash-bet__btn--stop");
+                    Receber();
+
                     Vitoria(multiplicadorAtual);
                     Log.Information($"Lucro Obtido: {(TotalAposta * Multiplicador) - TotalAposta }");
                     isInAposta = false;
@@ -153,13 +167,46 @@ namespace WebCrashV2.LIB.Domain.Robo
             }
         }
 
-
+        private void Receber()
+        {
+            var configAtiva = ConfiguracaoAtiva.GetInstance();
+            if (configAtiva.ApostarPraValer && ContinuarJogando())
+            {
+                //Descomentar para Jogar mesmo!!
+                //Navegador.ClickById("crash-btn crash-bet__btn crash-bet__btn--stop");
+            }
+        }
 
         //ARRUMAR CONVERT DOUBLE MULTIPLOS LUGARES
         private double ConvertDouble(string valor)
         {
             valor = valor.Replace("x", "").Replace(".", ",");
             return double.Parse(valor);
+        }
+
+        private void ClicarEmApostar()
+        {
+            var configAtiva = ConfiguracaoAtiva.GetInstance();
+
+            if (configAtiva.ApostarPraValer && ContinuarJogando())
+            {
+                Log.Information($"Apostei para valer");
+                Navegador.SetElementById("crash-bet", TotalAposta);
+
+                //Descomentar para Jogar mesmo!!
+                //Navegador.ClickById("crash-btn crash-bet__btn crash-bet__btn--play");
+            }
+        }
+
+        public bool ContinuarJogando()
+        {
+            var configAtiva = ConfiguracaoAtiva.GetInstance();
+            var result = (QtdVitoriasDerrotas <= configAtiva.QtdNegativasParar || QtdVitoriasDerrotas >= configAtiva.QtdPositivasParar);
+
+            var continuarJogando = result ? "SIM" : "NÃO";
+            Log.Information($"Continuar jogando?: {continuarJogando} ( {QtdVitoriasDerrotas} <= {configAtiva.QtdNegativasParar} || {QtdVitoriasDerrotas} >= {configAtiva.QtdPositivasParar} )");
+
+            return result;
         }
 
     }

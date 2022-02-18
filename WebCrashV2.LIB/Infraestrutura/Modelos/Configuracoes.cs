@@ -21,8 +21,8 @@ namespace WebCrashV2.LIB.Infraestrutura.Modelos
             Multiplicador = multiplicador;
             ValorAposta = valorAposta;
             ApostarPraValer = apostarPraValer;
-            QtdNegativasParar = qtdNegativasParar;
-            QtdPositivasParar = qtdPositivasParar;
+            QtdNegativasParar = qtdNegativasParar > 0 ? qtdNegativasParar * -1 : qtdNegativasParar;
+            QtdPositivasParar = qtdPositivasParar < 0 ? qtdPositivasParar * -1 : qtdPositivasParar;
         }
 
 
