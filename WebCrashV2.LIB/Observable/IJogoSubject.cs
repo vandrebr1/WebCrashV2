@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OpenQA.Selenium;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,7 +16,7 @@ namespace WebCrashV2.LIB.Observable
 
         void IsApostar();
 
-        void IsObterPremio(NavegadorService navegador);
+        void IsObterPremio(IWebElement crashGameCounter);
 
         void FinalizaAposta(double multiplicadorFinalizado);
     }

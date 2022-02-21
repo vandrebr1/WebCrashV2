@@ -10,10 +10,17 @@ namespace WebCrashV2.LIB.Repository.DB
 
         public DBSession()
         {
-            DBOption dbOptions = new DBOption();
-            var dbContext = new DbContext().SetDbProvider(dbOptions.ProviderName);
-            Connection = dbContext.GetDbContext(dbOptions.ConnectionString);
-            Connection.Open();
+            try
+            {
+                DBOption dbOptions = new DBOption();
+                var dbContext = new DbContext().SetDbProvider(dbOptions.ProviderName);
+                Connection = dbContext.GetDbContext(dbOptions.ConnectionString);
+                Connection.Open();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         public void Dispose() => Connection?.Dispose();

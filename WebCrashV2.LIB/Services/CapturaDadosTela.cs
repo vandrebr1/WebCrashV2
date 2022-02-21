@@ -6,12 +6,12 @@ namespace WebCrashV2.LIB.Services
 {
     public class CapturaDadosTela
     {
-        readonly NavegadorService navegador;
+        readonly Navegador Navegador;
         private bool houveErroLeitura;
 
-        public CapturaDadosTela(NavegadorService navegador)
+        public CapturaDadosTela()
         {
-            this.navegador = navegador;
+             Navegador = Navegador.GetInstance();
         }      
 
         public TelaInformacoes ConvertToTelaInformacoes()
@@ -28,7 +28,7 @@ namespace WebCrashV2.LIB.Services
         {
             try
             {
-                return navegador.FindElementByClassName("crash-game__counter").Text;
+                return Navegador.FindElementByClassName("crash-game__counter").Text;
             }
             catch (Exception ex)
             {

@@ -34,6 +34,13 @@ namespace WebCrashV2.LIB.Repository.DB
             return session.Connection.GetList<TelaInformacoes>().OrderBy(e => e.HorarioCaptura);
         }
 
+        public IEnumerable<TelaInformacoes> SelecionarTodosByDtDeDtAte(DateTime dtDe, DateTime dtAte)
+        {
+            return session.Connection.GetList<TelaInformacoes>()
+                .Where(e => e.HorarioCaptura >= dtDe && e.HorarioCaptura <= dtAte)
+                .OrderBy(e => e.HorarioCaptura);
+        }
+
         public List<TelaInformacoes> GetUltimosResultadosPattern(int patternLength)
         {
             var telaInformacoes = session.Connection.GetListPaged<TelaInformacoes>(1, patternLength, "", "Id desc");

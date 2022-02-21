@@ -1,5 +1,6 @@
 ﻿using Dapper;
 using Newtonsoft.Json;
+using Serilog;
 using System;
 
 namespace WebCrashV2.LIB.Infraestrutura.Modelos
@@ -41,6 +42,7 @@ namespace WebCrashV2.LIB.Infraestrutura.Modelos
 
         private double ConvertDouble(string valor)
         {
+            Log.Information($"ConvertDouble() valor: {valor}");
             valor = valor.ToUpper().Replace("X", "").Replace(".", ",").Replace("RUB", "").Replace("BRL", "").Trim();
             return Convert.ToDouble(valor);
         }

@@ -1,7 +1,8 @@
-﻿using Serilog;
+﻿using OpenQA.Selenium;
+using Serilog;
 using System;
 using System.Collections.Generic;
-using WebCrashV2.LIB.Domain.ConfiguracoesAtivas;
+using System.Threading;
 using WebCrashV2.LIB.Infraestrutura.Modelos;
 using WebCrashV2.LIB.Observable;
 using WebCrashV2.LIB.Repository.DB;
@@ -15,36 +16,46 @@ namespace WebCrashV2.LIB.Domain.Robo
         private int QtdVitoriasDerrotas = 0;
 
         private readonly List<string> Patterns;
-        private readonly double Multiplicador;
-        private readonly double TotalAposta;
+        private readonly List<string> PatternsIgnorar;
+
         private TelaInformacoesRepository telaInformacoesRepository;
         private ContabilidadeRepository contabilidadeRepository;
         private bool isInAposta = false;
         private Contabilidade contabilidade;
         private string PatternApostado;
-        NavegadorService Navegador;
+        Navegador Navegador;
+        Configuracoes Configuracoes;
 
-        public RoboCrash(NavegadorService navegador, List<string> patterns, double multiplicador, double totalAposta)
+        IWebElement btnReceber;
+        IWebElement btnApostar;
+
+        public RoboCrash(Configuracoes configuracoes, List<string> patterns, List<string> patternsIgnorar)
         {
             Patterns = patterns;
-            Multiplicador = multiplicador;
-            TotalAposta = totalAposta;
+            PatternsIgnorar = patternsIgnorar;
+
+            Configuracoes = configuracoes;
             var dbSession = new DBSession();
             telaInformacoesRepository = new TelaInformacoesRepository(dbSession);
             contabilidadeRepository = new ContabilidadeRepository(dbSession);
 
-            contabilidade = InicializarContabilidade(multiplicador, totalAposta);
-            Navegador = navegador;
+            contabilidade = InicializarContabilidade();
+            Navegador = Navegador.GetInstance();
 
         }
 
-        private Contabilidade InicializarContabilidade(double multiplicador, double totalAposta)
+        private void InicializaWebElements()
+        {
+            btnReceber = Navegador.FindElementByClassName("crash-bet__btn--stop");
+            btnApostar = Navegador.FindElementByClassName("crash-bet__btn--play");
+        }
+
+        private Contabilidade InicializarContabilidade()
         {
             return new Contabilidade()
             {
-                MultiplicadorApostado = multiplicador,
-                ValorApostado = totalAposta,
-
+                MultiplicadorApostado = Configuracoes.Multiplicador,
+                ValorApostado = Configuracoes.ValorAposta,
             };
         }
 
@@ -52,22 +63,52 @@ namespace WebCrashV2.LIB.Domain.Robo
         {
             Log.Information($"Verificando Apostar");
 
-            foreach (var pattern in Patterns)
+            if (ExistirSomentePatternsValidos())
             {
-                var ultimosResultadosPattern = telaInformacoesRepository.GetUltimosResultadosPattern(pattern.Length);
+                foreach (var pattern in Patterns)
+                {
+                    var ultimosResultadosPattern = telaInformacoesRepository.GetUltimosResultadosPattern(pattern.Length);
+                    string ultimoPattern = ConvertPattern(ultimosResultadosPattern);
+
+                    if (ultimoPattern == pattern)
+                    {
+                        Log.Information($"Encontrei, Pattern {pattern} compativel");
+                        Apostar(pattern);
+                        break;
+                    }
+                    else
+                    {
+                        Log.Information($"Pattern {pattern} # {ultimoPattern}");
+                    }
+
+                }
+            }
+        }
+
+        private bool ExistirSomentePatternsValidos()
+        {
+            Log.Information($"Verificando Ignorar Aposta");
+
+            foreach (var patternsIgnorar in PatternsIgnorar)
+            {
+                var ultimosResultadosPattern = telaInformacoesRepository.GetUltimosResultadosPattern(patternsIgnorar.Length);
                 string ultimoPattern = ConvertPattern(ultimosResultadosPattern);
 
-                if (ultimoPattern == pattern)
+                if (ultimoPattern.Contains("9"))
                 {
-                    Apostar(pattern);
-                    break;
-                }
-                else
-                {
-                    Log.Information($"Pattern {pattern} # {ultimoPattern}");
+                    Log.Information($"Ignorar Pattern que contem 9: {ultimoPattern}");
+                    return false;
                 }
 
+                if (ultimoPattern == patternsIgnorar)
+                {
+                    Log.Information($"Ignorar Pattern  {patternsIgnorar} = {ultimoPattern}");
+                    return false;
+                }
             }
+
+            Log.Information($"Nenhum Pattern Ignorar");
+            return true;
         }
 
         private string ConvertPattern(List<TelaInformacoes> ultimosResultadosPattern)
@@ -80,7 +121,7 @@ namespace WebCrashV2.LIB.Domain.Robo
                 {
                     patternConvertido += "9";
                 }
-                else if (result.Multiplicador >= Multiplicador)
+                else if (result.Multiplicador >= Configuracoes.Multiplicador)
                 {
                     patternConvertido += "1";
                 }
@@ -101,7 +142,7 @@ namespace WebCrashV2.LIB.Domain.Robo
 
             ClicarEmApostar();
 
-            Log.Information($"Apostei: {TotalAposta} | multiplicador: {Multiplicador} | pattern: {PatternApostado}");
+            Log.Information($"Apostei: {Configuracoes.ValorAposta} | multiplicador: {Configuracoes.Multiplicador} | pattern: {PatternApostado}");
         }
 
 
@@ -111,7 +152,7 @@ namespace WebCrashV2.LIB.Domain.Robo
             if (isInAposta)
             {
                 Derrota(multiplicadorFinalizado);
-                Log.Information($"Rodada finalizada - Derrota: {TotalAposta * -1}");
+                Log.Information($"Rodada finalizada - Derrota: {Configuracoes.ValorAposta * -1}");
             }
             else
             {
@@ -127,7 +168,7 @@ namespace WebCrashV2.LIB.Domain.Robo
         {
             contabilidade.DataHora = DateTime.Now;
             contabilidade.VitoriaDerrota = "D";
-            contabilidade.Valor = TotalAposta * -1;
+            contabilidade.Valor = Configuracoes.ValorAposta * -1;
             contabilidade.MultiplicadorCapturado = multiplicadorFinalizado;
             contabilidade.PatternApostado = PatternApostado;
 
@@ -142,7 +183,7 @@ namespace WebCrashV2.LIB.Domain.Robo
         {
             contabilidade.DataHora = DateTime.Now;
             contabilidade.VitoriaDerrota = "V";
-            contabilidade.Valor = (TotalAposta * Multiplicador) - TotalAposta;
+            contabilidade.Valor = (Configuracoes.ValorAposta * Configuracoes.Multiplicador) - Configuracoes.ValorAposta;
             contabilidade.MultiplicadorCapturado = multiplicadorFinalizado;
             contabilidade.PatternApostado = PatternApostado;
 
@@ -150,18 +191,19 @@ namespace WebCrashV2.LIB.Domain.Robo
             QtdVitoriasDerrotas++;
         }
 
-        public void ObterPremio(NavegadorService navegador)
+        public void ObterPremio(IWebElement elementCrashGameCounter)
         {
             if (isInAposta)
             {
-                var multiplicadorAtual = ConvertDouble(navegador.FindElementByClassName("crash-game__counter").Text);
+                var multiplicadorAtual = ConvertDouble(elementCrashGameCounter.Text);
 
-                if (multiplicadorAtual >= Multiplicador)
+                if (multiplicadorAtual >= (Configuracoes.Multiplicador - 0.10))
                 {
-                    Receber();
+                    Receber(); // Não inverter a ordem disso
+                    Log.Information($"Receber premiação");
 
                     Vitoria(multiplicadorAtual);
-                    Log.Information($"Lucro Obtido: {(TotalAposta * Multiplicador) - TotalAposta }");
+                    Log.Information($"Lucro Obtido: {(Configuracoes.ValorAposta * Configuracoes.Multiplicador) - Configuracoes.ValorAposta}");
                     isInAposta = false;
                 }
             }
@@ -169,11 +211,28 @@ namespace WebCrashV2.LIB.Domain.Robo
 
         private void Receber()
         {
-            var configAtiva = ConfiguracaoAtiva.GetInstance();
-            if (configAtiva.ApostarPraValer && ContinuarJogando())
+            try
             {
-                //Descomentar para Jogar mesmo!!
-                //Navegador.ClickById("crash-btn crash-bet__btn crash-bet__btn--stop");
+                if (Configuracoes.ApostarPraValer) { 
+                btnReceber.Click();
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"Erro CATASTROFICO em Receber() {ex.Message} parar TUDO!");
+                Navegador.CapturarImagemTela(nameof(Receber));
+
+                try
+                {
+                    //Tentar receber de qualquer maneira;
+                    btnReceber = Navegador.FindElementByClassName("crash-bet__btn--stop");
+                    btnReceber.Click();
+                }
+                catch (Exception ex1)
+                {
+                    Log.Error($"Erro CATASTROFICO em Receber() Impossível receber {ex1.Message} parar TUDO!");
+                }
+
             }
         }
 
@@ -186,28 +245,92 @@ namespace WebCrashV2.LIB.Domain.Robo
 
         private void ClicarEmApostar()
         {
-            var configAtiva = ConfiguracaoAtiva.GetInstance();
-
-            if (configAtiva.ApostarPraValer && ContinuarJogando())
+            if (Configuracoes.ApostarPraValer && ContinuarJogando())
             {
+                InicializaWebElements();
                 Log.Information($"Apostei para valer");
-                Navegador.SetElementById("crash-bet", TotalAposta);
 
-                //Descomentar para Jogar mesmo!!
-                //Navegador.ClickById("crash-btn crash-bet__btn crash-bet__btn--play");
+
+                DifarcarBotTempoEntradas();
+                //DisfarcarBotPosicaoMouseById("crash-bet");
+                Navegador.SetElementById("crash-bet", Configuracoes.ValorAposta);
+
+                var valorNoInput = Navegador.FindElementById("crash-bet").GetAttribute("value");
+
+                if (Configuracoes.ValorAposta.ToString() == valorNoInput)
+                {
+                    DifarcarBotTempoEntradas();
+                    //DisfarcarBotPosicaoMouse(btnApostar);
+                    try
+                    {
+                        //Descomentar para Jogar mesmo!!
+                        Navegador.ClickByElemento(btnApostar);
+                    }
+                    catch (Exception ex)
+                    {
+                        Log.Error($"Erro CATASTROFICO em ClicarEmApostar() {ex.Message} parar TUDO!");
+                        Navegador.CapturarImagemTela(nameof(ClicarEmApostar));
+                        Environment.Exit(0);
+                    }
+                }
+                else
+                {
+                    Log.Error($"Erro ClicarEmApostar() Valor do input {valorNoInput} <> valor apostar {Configuracoes.ValorAposta}");
+                }
             }
+        }
+
+        private void DifarcarBotTempoEntradas()
+        {
+            Random rnd = new Random();
+            int milesegundosEsperar = rnd.Next(2000, 3000);
+
+            Thread.Sleep(milesegundosEsperar);
+        }
+
+        private void DisfarcarBotPosicaoMouse(IWebElement elemento)
+        {
+            Navegador.MoveMouse(elemento);
+        }
+
+        private void DisfarcarBotPosicaoMouseById(string Id)
+        {
+            var elemento = Navegador.FindElementById(Id);
+            Navegador.MoveMouse(elemento);
         }
 
         public bool ContinuarJogando()
         {
-            var configAtiva = ConfiguracaoAtiva.GetInstance();
-            var result = (QtdVitoriasDerrotas <= configAtiva.QtdNegativasParar || QtdVitoriasDerrotas >= configAtiva.QtdPositivasParar);
+            var result = !(QtdVitoriasDerrotas <= Configuracoes.QtdNegativasParar || QtdVitoriasDerrotas >= Configuracoes.QtdPositivasParar);
 
             var continuarJogando = result ? "SIM" : "NÃO";
-            Log.Information($"Continuar jogando?: {continuarJogando} ( {QtdVitoriasDerrotas} <= {configAtiva.QtdNegativasParar} || {QtdVitoriasDerrotas} >= {configAtiva.QtdPositivasParar} )");
+            Log.Information($"Continuar jogando?: {continuarJogando} ( {QtdVitoriasDerrotas} <= {Configuracoes.QtdNegativasParar} || {QtdVitoriasDerrotas} >= {Configuracoes.QtdPositivasParar} )");
 
             return result;
         }
 
+        public void ForcarReceberPremio()
+        {
+            Log.Error($"Forçar receber!");
+            btnReceber = Navegador.FindElementByClassName("crash-bet__btn--stop");
+
+            try
+            {
+                if (btnReceber.Enabled)
+                {
+                    btnReceber.Click();
+                }
+                else
+                {
+                    btnReceber = Navegador.FindElementByClassName("crash-bet__btn--stop");
+                    btnReceber.Click();
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"Erro em ForcarReceberPremio() {ex.Message}");
+            }
+
+        }
     }
 }

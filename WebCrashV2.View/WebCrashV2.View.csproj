@@ -138,6 +138,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="frmPatternIgnorarAdicionar .cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmPatternIgnorarAdicionar .Designer.cs">
+      <DependentUpon>frmPatternIgnorarAdicionar .cs</DependentUpon>
+    </Compile>
     <Compile Include="frmProcurarPadrao.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -158,6 +164,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="frmPatternIgnorarAdicionar .resx">
+      <DependentUpon>frmPatternIgnorarAdicionar .cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="frmPrincipal.resx">
       <DependentUpon>frmPrincipal.cs</DependentUpon>
     </EmbeddedResource>

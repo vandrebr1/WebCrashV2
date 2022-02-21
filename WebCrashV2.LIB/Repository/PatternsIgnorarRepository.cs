@@ -29,9 +29,9 @@ namespace WebCrashV2.LIB.Repository.DB
             return 0;
         }
 
-        public IEnumerable<PatternsIgnorar> SelecionarByPatternJogarKey(PatternsJogar partternJogar)
+        public IEnumerable<PatternsIgnorar> SelecionarTodos()
         {
-            return session.Connection.GetList<PatternsIgnorar>().Where(e => e.PatternJogarKey == partternJogar.Pattern);
+            return session.Connection.GetList<PatternsIgnorar>();
         }
 
         public int? Apagar(PatternsIgnorar entity)
@@ -43,28 +43,6 @@ namespace WebCrashV2.LIB.Repository.DB
             catch (Exception ex)
             {
                 Log.Warning($"Erro ao salvar: {entity} \n{ex.Message})");
-            }
-            return 0;
-        }
-
-        public int? Apagar(PatternsJogar partternJogar)
-        {
-            var patternsIgnorarApagar = SelecionarByPatternJogarKey(partternJogar);
-
-            try
-            {
-                int itensExcluidos = 0;
-
-                foreach (var patterIgnApagar in patternsIgnorarApagar)
-                {
-                    itensExcluidos += session.Connection.Delete(patterIgnApagar);
-                }
-
-                return itensExcluidos;
-            }
-            catch (Exception ex)
-            {
-                Log.Warning($"Erro ao apagar:{partternJogar} \n{ex.Message})");
             }
             return 0;
         }

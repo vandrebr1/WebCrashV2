@@ -1,8 +1,8 @@
-﻿using Serilog;
+﻿using OpenQA.Selenium;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Threading;
-using WebCrashV2.LIB.Domain.ConfiguracoesAtivas;
 using WebCrashV2.LIB.Infraestrutura.Modelos;
 using WebCrashV2.LIB.Observable;
 using WebCrashV2.LIB.Repository.DB;
@@ -12,15 +12,15 @@ namespace WebCrashV2.LIB.Domain.WebJogo
 {
     public class JogoControlador : IJogoSubject
     {
-        private NavegadorService Navegador;
+        private readonly Navegador Navegador;
         private JogoStatusService jogoCaptura;
         private TelaInformacoesRepository telaInformacoesRepository;
         private List<IRoboObserver> _roboObservers = new List<IRoboObserver>();
-
-        public JogoControlador(NavegadorService navegador)
+        private CapturaDadosTela capturaTela = new CapturaDadosTela();
+        public JogoControlador()
         {
-            Navegador = navegador;
-            jogoCaptura = new JogoStatusService(Navegador);
+            Navegador = Navegador.GetInstance();
+            jogoCaptura = new JogoStatusService();
             telaInformacoesRepository = new TelaInformacoesRepository(new DBSession());
         }
 
@@ -28,18 +28,20 @@ namespace WebCrashV2.LIB.Domain.WebJogo
         {
             try
             {
+                SalvarInformacoesJogoErro();
                 AguardarAbrirNavegador();
                 AguardaContagemRegressivaIniciar(40);
 
                 while (true)
                 {
+                    Navegador.SetInputValorApostaEmZero();
                     CapturaInformacoes();
                 }
             }
             catch (Exception ex)
             {
                 FinalizaAposta(-1);
-                Log.Error($"Erro em JogoControladorIniciar() não prevista {ex.Message}");
+                Log.Error($"Erro em Iniciar() não prevista {ex.Message} LINHA 35");
             }
 
         }
@@ -66,18 +68,30 @@ namespace WebCrashV2.LIB.Domain.WebJogo
 
         private void CapturaInformacoes()
         {
+            int linhaErro = 0;
+
             try
             {
+                linhaErro = 1;
                 AguardaContagemRegressivaIniciar(20);
+
+                linhaErro = 2;
                 IsApostar();
+
+                linhaErro = 3;
                 AguardaMultiplicadorIniciar();
+
+                linhaErro = 4;
                 AguardarAviaoExplodiu();
+
+                linhaErro = 5;
                 SalvarInformacoes();
 
             }
             catch (Exception ex)
             {
-                Log.Error($"CapturaInformacoes() {ex.Message}");
+                Log.Error($"Erro em CapturaInformacoes() {ex.Message} Linha {linhaErro} \n{ex.StackTrace} ");
+                Navegador.CapturarImagemTela(nameof(CapturaInformacoes));
                 FinalizaAposta(-1);
                 SalvarInformacoesJogoErro();
                 Navegador.ReiniciarNavegacao();
@@ -87,28 +101,36 @@ namespace WebCrashV2.LIB.Domain.WebJogo
 
         private void SalvarInformacoes()
         {
-            var capturaTela = new CapturaDadosTela(Navegador);
             var telaInformacoes = capturaTela.ConvertToTelaInformacoes();
 
             Log.Information($"SALVANDO INFORMAÇÕES");
 
             telaInformacoesRepository.Salvar(telaInformacoes);
             FinalizaAposta(telaInformacoes.Multiplicador);
-
         }
 
         private bool AguardarAviaoExplodiu()
         {
-            DateTime dtInicial = DateTime.Now;
-
-            while (!jogoCaptura.AviaoExplodiu())
+            try
             {
-                IsObterPremio(Navegador);
+                DateTime dtInicial = DateTime.Now;
 
-                Thread.Sleep(5);
+                IWebElement crashGameCounter = Navegador.FindElementByClassName("crash-game__counter");
 
-                if (JogoDemorandoMuitoParaIniciar(dtInicial, 40))
-                    throw new Exception("Jogo demorou muito para avião explodir!");
+                while (!jogoCaptura.AviaoExplodiu())
+                {
+                    IsObterPremio(crashGameCounter);
+
+                    if (JogoDemorandoMuitoParaIniciar(dtInicial, 40))
+                        throw new Exception("Jogo demorou muito para avião explodir!");
+
+                    Thread.Sleep(5);
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.Warning($"Erro em AguardarAviaoExplodiu() {ex.Message}");
+                ForcarReceberPremio();
             }
 
             return true;
@@ -173,20 +195,22 @@ namespace WebCrashV2.LIB.Domain.WebJogo
 
         public void IsApostar()
         {
-            foreach (var observerRobo in _roboObservers)
-            {
-                observerRobo.RoboIsApostar();
-            }
+            _roboObservers[0].RoboIsApostar();
+
         }
 
-        public void IsObterPremio(NavegadorService navegador)
+        public void IsObterPremio(IWebElement crashGameCounter)
         {
 
-            foreach (var observerRobo in _roboObservers)
-            {
-                _roboObservers[0].ObterPremio(navegador);
-            }
+            _roboObservers[0].ObterPremio(crashGameCounter);
+
         }
+
+        private void ForcarReceberPremio()
+        {
+            _roboObservers[0].ForcarReceberPremio();
+        }
+
 
         public void FinalizaAposta(double multiplicadorFinalizado)
         {

@@ -271,8 +271,9 @@ namespace WebCrashV2.View
             this.btnDesativarIgnorar.Name = "btnDesativarIgnorar";
             this.btnDesativarIgnorar.Size = new System.Drawing.Size(86, 33);
             this.btnDesativarIgnorar.TabIndex = 28;
-            this.btnDesativarIgnorar.Text = "Desativar";
+            this.btnDesativarIgnorar.Text = "Deletar";
             this.btnDesativarIgnorar.UseVisualStyleBackColor = true;
+            this.btnDesativarIgnorar.Click += new System.EventHandler(this.btnDesativarIgnorar_Click);
             // 
             // btnAdicionarIgnorar
             // 
@@ -282,6 +283,7 @@ namespace WebCrashV2.View
             this.btnAdicionarIgnorar.TabIndex = 27;
             this.btnAdicionarIgnorar.Text = "Adicionar";
             this.btnAdicionarIgnorar.UseVisualStyleBackColor = true;
+            this.btnAdicionarIgnorar.Click += new System.EventHandler(this.btnAdicionarIgnorar_Click);
             // 
             // dgPatternsIgnorar
             // 
@@ -300,7 +302,7 @@ namespace WebCrashV2.View
             this.btnDesativar.Name = "btnDesativar";
             this.btnDesativar.Size = new System.Drawing.Size(86, 33);
             this.btnDesativar.TabIndex = 25;
-            this.btnDesativar.Text = "Desativar";
+            this.btnDesativar.Text = "Deletar";
             this.btnDesativar.UseVisualStyleBackColor = true;
             this.btnDesativar.Click += new System.EventHandler(this.btnDesativar_Click);
             // 

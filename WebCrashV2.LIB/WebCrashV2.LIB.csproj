@@ -158,8 +158,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Domain\ConfiguracoesAtivas\ConfiguracaoAtiva.cs" />
     <Compile Include="Domain\ProcurarPadrao\AnaliseIntervaloDiasAgrupadoHora.cs" />
+    <Compile Include="Domain\ProcurarPadrao\AnaliseIntervaloDias.cs" />
     <Compile Include="Domain\ProcurarPadrao\AnaliseTodoPeriodo.cs" />
     <Compile Include="Domain\ProcurarPadrao\ConfiguracaoExibicaoGanhosPositivo.cs" />
     <Compile Include="Domain\ProcurarPadrao\ConfiguracaoExibicaoTodos.cs" />
@@ -175,7 +175,7 @@
     <Compile Include="Infraestrutura\Modelos\PatternsIgnorar.cs" />
     <Compile Include="Infraestrutura\Modelos\PatternsJogar.cs" />
     <Compile Include="Infraestrutura\Modelos\TelaInformacoes.cs" />
-    <Compile Include="Domain\WebJogo\JogoControlador.cs" />
+    <Compile Include="Domain\Controlador\JogoControlador.cs" />
     <Compile Include="Observable\IRoboObserver.cs" />
     <Compile Include="Observable\IJogoSubject.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -195,7 +195,7 @@
     <Compile Include="Services\ConverterZeroUm.cs" />
     <Compile Include="Services\GerarStringsBinaria.cs" />
     <Compile Include="Services\JogoStatusService.cs" />
-    <Compile Include="Services\NavegadorService.cs" />
+    <Compile Include="Services\Navegador.cs" />
     <Compile Include="Services\AnaliseProcurarPadrao.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -205,7 +205,9 @@
     </None>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Domain\ConfiguracoesAtivas\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Selenium.Chrome.WebDriver.85.0.0\build\Selenium.Chrome.WebDriver.targets" Condition="Exists('..\packages\Selenium.Chrome.WebDriver.85.0.0\build\Selenium.Chrome.WebDriver.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

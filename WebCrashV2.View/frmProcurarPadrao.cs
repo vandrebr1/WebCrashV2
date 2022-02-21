@@ -112,6 +112,11 @@ namespace WebCrashV2.View
                 return new AnaliseTodoPeriodo();
             }
 
+            if (rbIntervaloDias.Checked)
+            {
+                return new AnaliseIntervaloDias(dtIntervaloDiasDe.Value, dtIntervaloDiasAte.Value);
+            }
+
             if (rbIntervaloDiasAgrupadoHoras.Checked)
             {
                 return new AnaliseIntervaloDiasAgrupadoHora(dtpDiasAgrupadoHorasDe.Value, dtpDiasAgrupadoHorasAte.Value);

@@ -6,11 +6,11 @@ namespace WebCrashV2.LIB.Services
     public class JogoStatusService
     {
 
-        private NavegadorService navegador;
+        private Navegador navegador;
 
-        public JogoStatusService(NavegadorService navegador)
+        public JogoStatusService()
         {
-            this.navegador = navegador;
+            navegador = Navegador.GetInstance();
         }
 
         public bool JogoFinalizou()

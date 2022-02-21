@@ -13,7 +13,15 @@ namespace WebCrashV2.LIB.Infraestrutura.Modelos
         public PatternsIgnorar()
         {
         }
-        public string PatternJogarKey { get; set; }
+
+        public PatternsIgnorar(int id, string patternIgnorar)
+        {
+            Id = id;
+            PatternIgnorar = patternIgnorar;
+        }
+
+        public int Id { get; set; }
+
         public string PatternIgnorar { get; set; }
 
     }

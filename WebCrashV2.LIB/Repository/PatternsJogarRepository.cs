@@ -38,7 +38,6 @@ namespace WebCrashV2.LIB.Repository.DB
         {
             try
             {
-                var patternsIgnorar = new PatternsIgnorarRepository(session).Apagar(entity);
                 var totalExcluido = session.Connection.Delete(entity);
             }
             catch (Exception ex)

@@ -1,7 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using WebCrashV2.LIB.Domain.ConfiguracoesAtivas;
-using WebCrashV2.LIB.Infraestrutura.Modelos;
+using WebCrashV2.LIB.Services;
 
 namespace Testes
 {
@@ -9,29 +7,27 @@ namespace Testes
     public class UnitTest1
     {
         [TestMethod]
-        public void PARAR_JOGAR_NEGATIVO_POSITIVO()
+        public void MoverMouse()
         {
-            var testeConfig = new Configuracoes(0, 2, 100, true, -5, 5);
-            ConfiguracaoAtiva.SetInstance(testeConfig);
-            var config = ConfiguracaoAtiva.GetInstance();
+            var classeElemento = "menuDesktop__link__title";
+            var navegador = Navegador.GetInstance();
 
-            var totalGanhosNegativo = -5;
-            var pararPqAtigingiuNegativo = totalGanhosNegativo <= config.QtdNegativasParar;
-            Assert.IsTrue(pararPqAtigingiuNegativo);
+            navegador.AbrirNavegadorParaTeste("https://www.uol.com.br/");
 
-            var totalGanhosPositivo = 5;
-            var pararPqAtigingiuPositivo = totalGanhosPositivo >= config.QtdPositivasParar;
-            Assert.IsTrue(pararPqAtigingiuPositivo);
+            var elemento = navegador.FindElementByClassName(classeElemento);
 
-
-            var pararPqAtigingiuPositivoNegativo = (totalGanhosNegativo <= config.QtdNegativasParar || totalGanhosPositivo >= config.QtdPositivasParar);
-            Assert.IsTrue(pararPqAtigingiuPositivoNegativo);
-
-            var totalGanho = -4;
-            var pararPqAtigingiuPositivoNegativo1 = (totalGanho <= config.QtdNegativasParar || totalGanho >= config.QtdPositivasParar);
-            Assert.IsFalse(pararPqAtigingiuPositivoNegativo1);
+            navegador.MoveMouse(elemento);
 
         }
 
+        [TestMethod]
+        public void SalvarPrint()
+        {
+            var navegador = Navegador.GetInstance();
+            navegador.AbrirNavegadorParaTeste("https://www.uol.com.br/");
+
+            navegador.CapturarImagemTela(nameof(SalvarPrint));
+
+        }
     }
 }

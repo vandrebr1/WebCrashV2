@@ -56,9 +56,9 @@ ProporcaoGanhosApostas
 
   SELECT *, (SELECT SUM([Valor])
   FROM [WebCrashV2].[dbo].[Contabilidade]
-  where DataHora >= '2022-02-13 15:47:26' AND Id <=Cont.Id)
+  where DataHora >= '2022-02-18 17:01:20.390' AND Id <=Cont.Id)
 FROM [WebCrashV2].[dbo].[Contabilidade] AS Cont
-where DataHora >= '2022-02-13 15:47:26'
+where DataHora >= '2022-02-18 17:01:20.390'
 
 
 
